@@ -48,14 +48,20 @@ while(captura.isOpened()):
         area = moments['m00']
     
         if(area > 2000000):
-         
+            print(area)
             x = int(moments['m10']/moments['m00'])
             y = int(moments['m01']/moments['m00'])
     
             cv2.rectangle(imagen, (x, y), (x+2, y+2),(0,0,255), 2)
+        
+        res = cv2.bitwise_and(imagen, imagen, mask= mask)
 
         cv2.imshow('mask', mask)
         cv2.imshow('Camara', imagen)
+        res[mask == 255] = [0, 0, 255]
+        cv2.imshow('res', res)
+        imagen[mask == 255] = [0,0,0]
+        cv2.imshow('suma',cv2.add(imagen,res))
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
